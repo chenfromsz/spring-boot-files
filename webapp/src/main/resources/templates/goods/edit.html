@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorator="fragments/layout">
+<head>
+    <title>内容管理</title>
+
+    <link th:href="@{/scripts/pagination/pagination.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/scripts/artDialog/default.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/scripts/My97DatePicker/skin/WdatePicker.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/styles/right.css}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" th:href="@{/styles/global-pic.css}"/>
+
+    <script th:src="@{/scripts/pagination/jquery.pagination.js}"></script>
+    <script th:src="@{/scripts/jquery.smartselect-1.1.min.js}"></script>
+    <script th:src="@{/scripts/artDialog/artDialog.js}" />
+    <script th:src="@{/scripts/My97DatePicker/WdatePicker.js}"></script>
+    <script th:src="@{/scripts/jquery.form.js}"></script>
+    <script type="text/javascript" th:src="@{/scripts/pic/upload-dialog.js}"></script>
+    <script type="text/javascript" th:src="@{/scripts/pic/pic.js}"/>
+    <script type="text/javascript" th:src="@{/scripts/goods/edit.js}"/>
+
+    <script type="text/javascript" charset="utf-8">
+        window.UEDITOR_HOME_URL = "/ueditor/";
+    </script>
+    <script type="text/javascript" charset="utf-8" th:src="@{/ueditor/editor_config.js}"></script>
+    <script type="text/javascript" charset="utf-8" th:src="@{/ueditor/editor_all.js}"></script>
+
+</head>
+<body>
+<div class="locationLine" layout:fragment="prompt">
+    当前位置：首页 &gt; <em >商品编辑</em>
+</div>
+
+<div class="statisticBox w-782"  layout:fragment="content">
+    <!--开始-->
+    <form id="saveForm" action="/manage/wxnews/update" method="post">
+    <a href="" style="display:none;" id="previewa" target="_blank">hiddenA</a>
+    <input id="id" name="id" type="hidden" th:value="${goods.id}"/>
+    <input id="shopid" name="shopid" type="hidden" th:value="${goods.shopid}"/>
+    <input id="create" name="create" type="hidden" th:value="${goods.create} ? ${#dates.format(goods.create,'yyyy-MM-dd HH:mm:ss')} :''"/>
+    <div class="right-tab">
+        <p class="tab-hover">编辑商品</p>
+    </div>
+
+    <div class="graphic">
+        <div class="news-lottery">
+            <div class="gra-title">
+                <dl>
+                    <dt><span>推送图片</span></dt>
+                    <dd>
+                        <div class="gra-pic">
+                            <img id="coverpic" th:src="${goods.picture}"/>
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+         <div class="gra-write">
+            <div class="gra-position"><img src="/images/gra-position.jpg"/></div>
+            <div class="gra-wr-top"><img src="/images/gar-w-top.jpg"/></div>
+            <div class="edit-wr-content">
+                <ul>
+                    <li>
+                        <div class="edit-title">名称</div>
+                        <div class="edit-ipt"><input type="text" class="required edit-txt" id="name" name="name" th:value="${goods.name}" maxlength="32"/></div>
+                    </li>
+                    <li>
+                        <div class="edit-title">图片</div>
+                        <div class="edit-ipt">
+                            <div class="edit-upfle">
+                                <input type="text" class="required edit-ipt-up" id="picture" name="picture" readonly="true" th:value="${goods.picture}"/>
+                                <input type="button" id="uploadBigpic" class="edit-btn"  value="上传" />
+                            </div>
+                            <div class="edit-noto">大图片建议尺寸：720像素 * 400像素</div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="modity-banr">概述<span>255个字符以内</span></div>
+                        <div class="modity-sion">
+                            <textarea maxlength="255" class="required custxt" id="brief" name="brief" placeholder="简要描述内容。" th:text="${goods.brief}"></textarea>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="edit-title">价格</div>
+                        <div class="edit-ipt">
+                            <div class="edit-upfle">
+                                <input type="text" class="required edit-ipt-up" id="price" name="price" th:value="${goods.price}"/>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="modity-banr">详情</div>
+                        <div class="modity-sion">
+                            <textarea id="contents" name="contents" th:text="${goods.contents}"></textarea>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="operate">
+        <input type="button" style="margin-left:22px;" class="preview" id="saveBtn" onclick="saveEdit()" value="保 存" onMouseOver="this.className='preview-hover';" onMouseOut="this.className='preview';"/>
+    </div>
+
+    <script type="text/javascript">
+        var ME = UE.getEditor('contents',
+                {
+                    wordCount:false,
+                    initialFrameWidth:406,
+                    maximumWords:50000,
+                    wordOverFlowMsg:'最多输入50000个字符',
+                    toolbars:[
+                        ['fullscreen', 'undo', 'redo', '|','bold', 'underline', 'strikethrough', 'superscript', 'subscript', 'removeformat',
+                            'formatmatch','autotypeset', '|', 'forecolor', 'backcolor', 'cleardoc', '|','rowspacingtop', 'rowspacingbottom',
+                            'lineheight','|','justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|','imagenone', 'imageleft',
+                            'imageright','imagecenter', '|','customstyle', 'paragraph', 'fontsize', '|','emotion','date', 'time','spechars',
+                            '|','searchreplace', 'insertimage', 'wordimage', 'link']
+                    ]});
+        ME.addListener("contentChange",function(){
+            var inputNumber = ME.getContentLength()-7;
+            var remainNumber = 50000-ME.getContentLength();
+            if(!remainNumber){
+                remainNumber=0;
+            }
+            var message = '当前已输入'+ inputNumber +'个字符,您还可以输入'+ remainNumber +'个字符。';
+            $("#edui1_wordcount").html(message);
+        });
+    </script>
+    </form>
+</div>
+
+</body>
+</html>

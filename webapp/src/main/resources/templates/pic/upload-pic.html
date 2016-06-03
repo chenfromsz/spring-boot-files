@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org" layout:decorator="fragments/dialog">
+<head>
+    <title>文件上传</title>
+
+    <style>
+        .newUpDiv{position:relative;width:130px;height:48px;border:1px solid #e3e3e3;color:#666;font-size:16px;text-align:center;line-height:48px;font-weight:bold;}
+        .newUpDiv input{opacity:0;filter:alpha(opacity=0);width:100%;height:100%;position:absolute;top:0;left:0;z-index:100}
+    </style>
+    <script th:src="@{/scripts/pic/pic.js}"></script>
+</head>
+<body style="background:#fff;">
+<div layout:fragment="displayDialog">
+    <div class="g-img-upload">
+        <div class="blank10"></div>
+        <div class="upload-switch">
+            <div class="g-tabItemBox g-blueTab">
+                <a class="g-tabItem g-currentTabItem" id="uppic" href="javascript:;">本地上传</a>
+                <a class="g-tabItem" id="choosepic" href="javascript:;">图库选择</a>
+            </div>
+            <div class="upload-case">
+                <div class="img-view">
+                    <div class="up-tit">下图为您的图片展示，请注意是否清晰。</div>
+                    <div class="upload-box">
+                        点击上传
+                        <input id="pictureFile" name="pictureFile" type="file" class="file" onchange="uploadPic_submit(this)"/>
+                    </div>
+                    <div class="view-box">
+                        <div class="view" id="view"><img/></div>
+                        <input type="hidden" value="" id="p1"/><!-- 左上坐标 -->
+                        <input type="hidden" value="" id="p2"/><!-- 右上坐标 -->
+                        <input type="hidden" value="" id="p3"/><!-- 右下坐标 -->
+                        <input type="hidden" value="" id="p4"/><!-- 左下坐标 -->
+                    </div>
+                    <div class="file-type">支持类型：jpg、jpeg、png。<span class="error">格式不正确</span></div>
+                    <div class="reupload">
+                        <div class="l">
+                            <div class="newUpDiv"><p>选择文件</p>
+                             <input id="changeFile" class="g-btn g-btn-white" name="pictureFile" type="file" onchange="uploadPic_submit(this)"/>
+                            </div>
+
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="img-select">
+                    <div class="up-tit">选择图片后可以在下框中调整您所需的部分。</div>
+                    <div class="operateBox">
+                        <span>上传图片后预览</span>
+
+                        <div class="operate" id="operate">
+                            <img/>
+                            <div class="i_see">
+                                <div class="b_top"></div>
+                                <div class="b_right"></div>
+                                <div class="b_bottom"></div>
+                                <div class="b_left"></div>
+                                <div class="handle h_top_left"></div>
+                                <div class="handle h_top"></div>
+                                <div class="handle h_top_right"></div>
+                                <div class="handle h_right"></div>
+                                <div class="handle h_bottom_right"></div>
+                                <div class="handle h_bottom"></div>
+                                <div class="handle h_bottom_left"></div>
+                                <div class="handle h_left"></div>
+                                <div class="s_c"></div>
+                            </div>
+                            <div class="o_bg bg_top"></div>
+                            <div class="o_bg bg_right"></div>
+                            <div class="o_bg bg_bottom"></div>
+                            <div class="o_bg bg_left"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+            <div class="upload-case"  style="display:none">
+                <div class="upload-list" id="upload-list">
+                    <div class="clear"></div>
+                </div>
+                <div class="g-pagebar" id="pagebar"></div>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/scripts/pic/PageBarNumList.js}" type="text/javascript"></script>
+    <script th:src="@{/scripts/pic/ajaxfileupload.js}" type="text/javascript"></script>
+    <script type="text/javascript" th:src="@{/scripts/pic/upload-page.js}"></script>
+</div>
+</body>
+</html>
