@@ -16,12 +16,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableNeo4jRepositories(basePackages = { "com.test.neo4j.repositories" })
 @EnableConfigurationProperties(Neo4jSetting.class)
 public class Neo4jConfig extends Neo4jConfiguration {
-    @Autowired
-    private Neo4jSetting neo4jSetting;
-    @Override
-    public Neo4jServer neo4jServer() {
-        return new RemoteServer(neo4jSetting.getUrl(), neo4jSetting.getUsername(), neo4jSetting.getPassword());
-    }
+//SDN 升级到4.1.5，连接服务器的配置改在ogm.properties中设定，这样可以访问Neo4j 2.x 到 3.x 版本
+//    @Autowired
+//    private Neo4jSetting neo4jSetting;
+//    @Override
+//    public Neo4jServer neo4jServer() {
+//        return new RemoteServer(neo4jSetting.getUrl(), neo4jSetting.getUsername(), neo4jSetting.getPassword());
+//    }
 
     @Override
     public SessionFactory getSessionFactory() {

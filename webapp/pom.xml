@@ -31,11 +31,6 @@
             <artifactId>fastdfs-client</artifactId>
             <version>1.25.1-RELEASE</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-neo4j</artifactId>
-            <version>4.0.0.RELEASE</version>
-        </dependency>
     </dependencies>
 
     <build>
