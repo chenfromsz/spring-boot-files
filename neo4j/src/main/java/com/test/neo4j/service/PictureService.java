@@ -23,7 +23,7 @@ public class PictureService {
     private PagesService<Picture> pagesService;
 
     public Picture findById(Long id) {
-        return pictureRepository.findOne(id);
+        return pictureRepository.findById(id).get();
     }
 
     public Picture create(Picture picture) {
@@ -35,7 +35,7 @@ public class PictureService {
     }
 
     public void delete(Long id) {
-        Picture picture = pictureRepository.findOne(id);
+        Picture picture = pictureRepository.findById(id).get();
         pictureRepository.delete(picture);
     }
 
@@ -56,12 +56,11 @@ public class PictureService {
 
         Filters filters = new Filters();
         if (!StringUtils.isEmpty(pictureQo.getFileName())) {
-            Filter filter = new Filter("name", pictureQo.getFileName());
+            Filter filter = new Filter("name", ComparisonOperator.LIKE, pictureQo.getFileName());
             filters.add(filter);
         }
         if (!StringUtils.isEmpty(pictureQo.getShopid())) {
-            Filter filter = new Filter("shopid", pictureQo.getShopid());
-            filter.setComparisonOperator(ComparisonOperator.EQUALS);
+            Filter filter = new Filter("shopid", ComparisonOperator.EQUALS, pictureQo.getShopid());
             filter.setBooleanOperator(BooleanOperator.AND);
             filters.add(filter);
         }

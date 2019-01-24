@@ -23,7 +23,7 @@ public class GoodsService {
     private PagesService<Goods> pagesService;
 
     public Goods findById(Long id) {
-        return goodsRepository.findOne(id);
+        return goodsRepository.findById(id).get();
     }
 
     public Goods create(Goods goods) {
@@ -35,7 +35,7 @@ public class GoodsService {
     }
 
     public void delete(Long id) {
-        Goods goods = goodsRepository.findOne(id);
+        Goods goods = goodsRepository.findById(id).get();
         goodsRepository.delete(goods);
     }
 
@@ -44,16 +44,15 @@ public class GoodsService {
     }
 
     public Page<Goods> findPage(GoodsQo goodsQo){
-        Pageable pageable = new PageRequest(goodsQo.getPage(), goodsQo.getSize(), new Sort(Sort.Direction.ASC, "id"));
+        Pageable pageable = PageRequest.of(goodsQo.getPage(), goodsQo.getSize(), Sort.by(Sort.Direction.ASC, "id"));
 
         Filters filters = new Filters();
         if (!StringUtils.isEmpty(goodsQo.getName())) {
-            Filter filter = new Filter("name", goodsQo.getName());
+            Filter filter = new Filter("name", ComparisonOperator.LIKE, goodsQo.getName());
             filters.add(filter);
         }
         if (!StringUtils.isEmpty(goodsQo.getCreate())) {
-            Filter filter = new Filter("create", goodsQo.getCreate());
-            filter.setComparisonOperator(ComparisonOperator.GREATER_THAN);
+            Filter filter = new Filter("create", ComparisonOperator.GREATER_THAN_EQUAL, goodsQo.getCreate());
             filter.setBooleanOperator(BooleanOperator.AND);
             filters.add(filter);
         }

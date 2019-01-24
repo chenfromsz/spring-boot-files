@@ -1,31 +1,33 @@
 package com.test.neo4j.config;
 
+import org.neo4j.ogm.config.ClasspathConfigurationSource;
+import org.neo4j.ogm.config.ConfigurationSource;
 import org.neo4j.ogm.session.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.neo4j.config.Neo4jConfiguration;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
-import org.springframework.data.neo4j.server.Neo4jServer;
-import org.springframework.data.neo4j.server.RemoteServer;
+import org.springframework.data.neo4j.transaction.Neo4jTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 @Configuration
 @EnableTransactionManagement
 @EnableNeo4jRepositories(basePackages = { "com.test.neo4j.repositories" })
-@EnableConfigurationProperties(Neo4jSetting.class)
-public class Neo4jConfig extends Neo4jConfiguration {
-//SDN 升级到4.1.5，连接服务器的配置改在ogm.properties中设定，这样可以访问Neo4j 2.x 到 3.x 版本
-//    @Autowired
-//    private Neo4jSetting neo4jSetting;
-//    @Override
-//    public Neo4jServer neo4jServer() {
-//        return new RemoteServer(neo4jSetting.getUrl(), neo4jSetting.getUsername(), neo4jSetting.getPassword());
-//    }
+public class Neo4jConfig {
+    @Bean
+    public SessionFactory sessionFactory() {
+        return new SessionFactory(configuration(),"com.test.neo4j.domain");
+    }
 
-    @Override
-    public SessionFactory getSessionFactory() {
-        return new SessionFactory("com.test.neo4j.domain");
+    @Bean
+    public org.neo4j.ogm.config.Configuration configuration() {
+        ConfigurationSource properties = new ClasspathConfigurationSource("ogm.properties");
+        org.neo4j.ogm.config.Configuration configuration = new org.neo4j.ogm.config.Configuration.Builder(properties).build();
+        return configuration;
+    }
+
+    @Bean
+    public Neo4jTransactionManager transactionManager() {
+        return new Neo4jTransactionManager(sessionFactory());
     }
 }

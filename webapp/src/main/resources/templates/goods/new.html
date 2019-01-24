@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" layout:decorator="fragments/layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="fragments/layout">
 <head>
     <title>内容管理</title>
 
@@ -10,13 +11,11 @@
     <link rel="stylesheet" th:href="@{/styles/global-pic.css}"/>
 
     <script th:src="@{/scripts/pagination/jquery.pagination.js}"></script>
-    <script th:src="@{/scripts/jquery.smartselect-1.1.min.js}"></script>
-    <script th:src="@{/scripts/artDialog/artDialog.js}" />
     <script th:src="@{/scripts/My97DatePicker/WdatePicker.js}"></script>
     <script th:src="@{/scripts/jquery.form.js}"></script>
     <script type="text/javascript" th:src="@{/scripts/pic/upload-dialog.js}"></script>
-    <script type="text/javascript" th:src="@{/scripts/pic/pic.js}"/>
-    <script type="text/javascript" th:src="@{/scripts/goods/new.js}"/>
+    <script type="text/javascript" th:src="@{/scripts/pic/pic.js}"></script>
+    <script type="text/javascript" th:src="@{/scripts/goods/new.js}"></script>
 
     <script type="text/javascript" charset="utf-8">
         window.UEDITOR_HOME_URL = "/ueditor/";
